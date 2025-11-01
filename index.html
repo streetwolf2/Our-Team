@@ -1,336 +1,1515 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Team</title>
+    <title>TechPro - 专业IT团队展示</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- GSAP 动画库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#0B2447',
+                            light: '#19376D',
+                        },
+                        secondary: {
+                            DEFAULT: '#576CBC',
+                            light: '#A5D7E8',
+                        },
+                        accent: '#FF9F45',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            scroll-behavior: smooth; /* 平滑滚动效果 */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        html {
+            scroll-behavior: smooth;
         }
-
+        
         body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
-
-        header {
-            text-align: center;
-            margin: 60px 0;
-            animation: fadeIn 1s ease-out; /* 标题渐入动画 */
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-        }
-
-        .section {
-            margin: 80px 0;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* 区块滚动显示动画 */
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h2 {
-            color: #34495e;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #3498db;
-            display: inline-block;
+        
+        .hero-bg {
+            background-image: url('https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/1d3569fc9d1d48d8a9fe8c98cf7fd140~tplv-a9rns2rl98-image.image?rcl=20251101211828003180543750AEF6375F&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1764595144&x-signature=%2BnZ9JyJWGDSkqCrFC025VKeM14o%3D');
+            background-size: cover;
+            background-position: center;
             position: relative;
         }
-
-        h2:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -2px;
-            left: 0;
-            background-color: #2980b9;
-            transition: width 0.3s ease;
-        }
-
-        .section:hover h2:after {
-            width: 100%; /* 标题下划线动画 */
-        }
-
-        .team-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .team-member {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: all 0.3s ease; /* 团队成员卡片动画 */
-            position: relative;
-            overflow: hidden;
-        }
-
-        .team-member:before {
+        
+        .hero-bg::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: #3498db;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(11, 36, 71, 0.9) 0%, rgba(25, 55, 109, 0.8) 100%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #FF9F45;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .team-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .team-card img {
+            transition: all 0.5s ease;
+        }
+        
+        .team-card:hover img {
+            transform: scale(1.05);
+        }
+        
+        .skill-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .skill-icon:hover {
+            transform: translateY(-5px);
+            color: #FF9F45;
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tech-stack-item {
+            transition: all 0.3s ease;
+        }
+        
+        .tech-stack-item:hover {
+            transform: scale(1.05);
+        }
+        
+        #tech-stack-canvas {
+            width: 100%;
+            height: 400px;
+        }
+        
+        .radar-chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+        }
+        
+        .count-animation {
+            display: inline-block;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .radar-chart-container,
+            #tech-stack-canvas {
+                height: 300px;
+            }
+        }
+        
+        /* 滚动动画类 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 3D技术栈图谱样式 */
+        .tech-node {
+            position: absolute;
+            background: rgba(87, 108, 188, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tech-node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tech-connection {
+            position: absolute;
+            background-color: rgba(165, 215, 232, 0.5);
+            transform-origin: 0 0;
+            z-index: -1;
+        }
+        
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #0B2447;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #19376D;
+        }
+        
+        /* 加载动画 */
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #FF9F45;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 移动端菜单 */
+        .mobile-menu {
             transform: translateX(-100%);
             transition: transform 0.3s ease;
         }
-
-        .team-member:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-        }
-
-        .team-member:hover:before {
-            transform: translateX(0); /* 顶部线条动画 */
-        }
-
-        .team-member h3 {
-            color: #2c3e50;
-            margin-bottom: 5px;
-            transition: color 0.3s ease;
-        }
-
-        .team-member:hover h3 {
-            color: #3498db; /* 名字颜色变化 */
-        }
-
-        .role {
-            color: #3498db;
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .values {
-            list-style-type: none;
-            margin-top: 20px;
-        }
-
-        .values li {
-            margin: 15px 0;
-            padding-left: 25px;
-            position: relative;
-            transition: transform 0.2s ease;
-        }
-
-        .values li:before {
-            content: "•";
-            color: #3498db;
-            font-size: 1.5rem;
-            position: absolute;
-            left: 0;
-            top: -5px;
-            transition: transform 0.3s ease;
-        }
-
-        .values li:hover {
-            transform: translateX(5px); /* 价值观列表项移动 */
-        }
-
-        .values li:hover:before {
-            transform: scale(1.3); /* 列表项符号放大 */
-        }
-
-        .contact {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 8px;
-            margin-top: 20px;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .contact:hover {
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.1);
-        }
-
-        .contact-info {
-            margin: 15px 0;
-        }
-
-        .contact-info a {
-            color: #3498db;
-            text-decoration: none;
-            position: relative;
-            padding-bottom: 2px;
-        }
-
-        .contact-info a:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: 0;
-            left: 0;
-            background-color: #3498db;
-            transition: width 0.3s ease;
-        }
-
-        .contact-info a:hover:after {
-            width: 100%; /* 链接下划线动画 */
-        }
-
-        .btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        footer {
-            text-align: center;
-            margin: 60px 0 30px;
-            color: #7f8c8d;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            animation: fadeIn 1s ease-out 0.5s both; /* 延迟显示页脚 */
-        }
-
-        @media (max-width: 768px) {
-            .team-container {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
         }
     </style>
 </head>
-<body>
-    <header>
-        <h1>Our Team</h1>
-        <p>Meet the people behind our success</p>
-    </header>
-
-    <section class="section">
-        <h2>Who We Are</h2>
-        <p>We’re a diverse group of problem-solvers, innovators, and collaborators united by a shared passion for creating impactful technology. With expertise spanning engineering, design, and project management, we bring unique perspectives to every challenge—turning ideas into reality, together.</p>
-    </section>
-
-    <section class="section">
-        <h2>Meet The Team</h2>
-        <div class="team-container">
-            <div class="team-member">
-                <h3>Sarah Johnson</h3>
-                <span class="role">Lead Engineer</span>
-                <p>With 10+ years in software development, Sarah specializes in scalable systems. When not coding, you’ll find her hiking or mentoring new developers.</p>
+<body class="bg-gray-50">
+    <!-- 导航栏 -->
+    <nav class="bg-primary text-white fixed w-full z-50 shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-code-branch text-accent text-2xl"></i>
+                    <span class="text-xl font-bold">TechPro</span>
+                </div>
+                
+                <!-- 桌面端导航 -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link">首页</a>
+                    <a href="#about" class="nav-link">关于我们</a>
+                    <a href="#team" class="nav-link">团队成员</a>
+                    <a href="#projects" class="nav-link">项目案例</a>
+                    <a href="#skills" class="nav-link">专业技能</a>
+                    <a href="#contact" class="nav-link">联系我们</a>
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <div class="md:hidden">
+                    <button id="menu-toggle" class="focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
             </div>
-
-            <div class="team-member">
-                <h3>Michael Chen</h3>
-                <span class="role">UX Designer</span>
-                <p>A graduate of Rhode Island School of Design, Michael blends creativity with user-centric thinking to craft intuitive experiences. He’s obsessed with coffee, typography, and making complex ideas feel simple.</p>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="mobile-menu fixed top-0 left-0 h-full w-4/5 bg-primary z-50 p-5 shadow-lg">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-code-branch text-accent text-2xl"></i>
+                    <span class="text-xl font-bold">TechPro</span>
+                </div>
+                <button id="close-menu" class="focus:outline-none">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
             </div>
-
-            <div class="team-member">
-                <h3>Emma Rodriguez</h3>
-                <span class="role">Project Manager</span>
-                <p>Organized, detail-oriented, and a master of deadlines—Emma keeps our projects on track. Her background in business administration helps us balance ambition with practicality.</p>
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="py-2 border-b border-gray-700">首页</a>
+                <a href="#about" class="py-2 border-b border-gray-700">关于我们</a>
+                <a href="#team" class="py-2 border-b border-gray-700">团队成员</a>
+                <a href="#projects" class="py-2 border-b border-gray-700">项目案例</a>
+                <a href="#skills" class="py-2 border-b border-gray-700">专业技能</a>
+                <a href="#contact" class="py-2">联系我们</a>
             </div>
+        </div>
+    </nav>
 
-            <div class="team-member">
-                <h3>David Kim</h3>
-                <span class="role">Data Analyst</span>
-                <p>David turns complex data into actionable insights with his expertise in statistics and machine learning. He enjoys contributing to open-source projects and playing basketball.</p>
+    <!-- Hero区域 -->
+    <section id="home" class="hero-bg min-h-screen flex items-center pt-16">
+        <div class="container mx-auto px-4 py-16 hero-content">
+            <div class="max-w-3xl mx-auto text-center text-white">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                    <span class="text-accent">专业</span>IT团队<br>
+                    <span class="text-secondary-light">创新</span>解决方案
+                </h1>
+                <p class="text-xl md:text-2xl mb-10 text-gray-200">
+                    我们是一支充满激情和创造力的技术团队，致力于为客户提供高质量的IT服务和解决方案
+                </p>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <a href="#team" class="bg-accent hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-full transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-users mr-2"></i> 认识团队
+                    </a>
+                    <a href="#projects" class="bg-transparent border-2 border-white hover:bg-white hover:text-primary font-bold py-3 px-8 rounded-full transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-project-diagram mr-2"></i> 查看项目
+                    </a>
+                </div>
+                
+                <!-- 滚动提示 -->
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+                    <a href="#about" class="text-white">
+                        <i class="fas fa-chevron-down text-2xl"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
-        <h2>Our Values</h2>
-        <ul class="values">
-            <li><strong>Collaboration:</strong> We believe the best ideas come from working together.</li>
-            <li><strong>Innovation:</strong> We embrace curiosity and aren’t afraid to try new things.</li>
-            <li><strong>Integrity:</strong> We do what’s right—for our team, clients, and community.</li>
-            <li><strong>Growth:</strong> We learn, adapt, and support each other’s development.</li>
-        </ul>
-    </section>
-
-    <section class="section">
-        <h2>Let’s Connect</h2>
-        <div class="contact">
-            <p>Interested in working with us or joining the team? Reach out:</p>
-            <div class="contact-info">
-                <p>Email: <a href="mailto:team@example.com">team@example.com</a></p>
-                <p>Phone: <a href="tel:+15551234567">+1 (555) 123-4567</a></p>
-                <p>LinkedIn: <a href="#" target="_blank">linkedin.com/company/ourteam</a></p>
+    <!-- 关于我们 -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-primary mb-4">关于我们</h2>
+                <div class="w-24 h-1 bg-accent mx-auto"></div>
             </div>
-            <a href="#" class="btn">Join Our Team</a>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold text-primary mb-4">我们的使命</h3>
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        TechPro成立于2015年，是一家专注于提供高质量IT解决方案的技术团队。我们的使命是通过创新技术帮助企业数字化转型，提升业务效率和竞争力。
+                    </p>
+                    <p class="text-gray-700 mb-8 leading-relaxed">
+                        我们拥有丰富的行业经验和专业知识，能够为客户提供从需求分析、方案设计到开发实施的全流程服务。我们注重团队协作和技术创新，不断探索前沿技术，为客户创造更大价值。
+                    </p>
+                    
+                    <!-- 数据统计 -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-primary mb-2">
+                                <span class="count-animation" data-target="8">0</span>+
+                            </div>
+                            <p class="text-gray-600">年行业经验</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-primary mb-2">
+                                <span class="count-animation" data-target="50">0</span>+
+                            </div>
+                            <p class="text-gray-600">成功项目</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-primary mb-2">
+                                <span class="count-animation" data-target="25">0</span>+
+                            </div>
+                            <p class="text-gray-600">专业人才</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-primary mb-2">
+                                <span class="count-animation" data-target="95">0</span>%
+                            </div>
+                            <p class="text-gray-600">客户满意度</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-xv4ileqgde/58b110d8411848db96e83a90008df25b~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555121&x-signature=NtbpxP7a778bzpy0E264PF%2BsBTo%3D" alt="IT团队" class="rounded-lg shadow-xl w-full h-auto">
+                </div>
+            </div>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2023 Our Team. All rights reserved.</p>
+    <!-- 团队成员 -->
+    <section id="team" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-primary mb-4">我们的团队</h2>
+                <div class="w-24 h-1 bg-accent mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    我们拥有一支由行业专家组成的高素质团队，每个人都在自己的领域拥有丰富的经验和专业知识
+                </p>
+            </div>
+            
+            <!-- 团队成员筛选 -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="team-filter-btn active bg-primary text-white py-2 px-6 rounded-full transition duration-300" data-filter="all">
+                    全部成员
+                </button>
+                <button class="team-filter-btn bg-gray-200 hover:bg-primary hover:text-white py-2 px-6 rounded-full transition duration-300" data-filter="frontend">
+                    前端开发
+                </button>
+                <button class="team-filter-btn bg-gray-200 hover:bg-primary hover:text-white py-2 px-6 rounded-full transition duration-300" data-filter="backend">
+                    后端开发
+                </button>
+                <button class="team-filter-btn bg-gray-200 hover:bg-primary hover:text-white py-2 px-6 rounded-full transition duration-300" data-filter="design">
+                    UI/UX设计
+                </button>
+                <button class="team-filter-btn bg-gray-200 hover:bg-primary hover:text-white py-2 px-6 rounded-full transition duration-300" data-filter="ai">
+                    人工智能
+                </button>
+            </div>
+            
+            <!-- 团队成员卡片 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 成员1 -->
+                <div class="team-card fade-in" data-category="frontend">
+                    <div class="overflow-hidden">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/969719219494060079~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555121&x-signature=AmObsYwjc1e0272hwq5pTzqSkjc%3D" alt="张明 - 前端技术主管" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h3 class="text-xl font-bold text-primary mb-2">张明</h3>
+                        <p class="text-secondary font-medium mb-3">前端技术主管</p>
+                        <p class="text-gray-600 mb-4">
+                            8年前端开发经验，精通React、Vue等前端框架，热衷于创造优秀的用户体验。
+                        </p>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 成员2 -->
+                <div class="team-card fade-in" data-category="backend">
+                    <div class="overflow-hidden">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1070812811086135409~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555121&x-signature=1VNxRMRQCt59JJhyek3%2F%2BlRhRx4%3D" alt="李强 - 后端架构师" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h3 class="text-xl font-bold text-primary mb-2">李强</h3>
+                        <p class="text-secondary font-medium mb-3">后端架构师</p>
+                        <p class="text-gray-600 mb-4">
+                            10年后端开发经验，精通Java、Spring Boot、微服务架构，专注于高性能系统设计。
+                        </p>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 成员3 -->
+                <div class="team-card fade-in" data-category="design">
+                    <div class="overflow-hidden">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1070812811086135409~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555121&x-signature=1VNxRMRQCt59JJhyek3%2F%2BlRhRx4%3D" alt="王晓华 - UI/UX设计师" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h3 class="text-xl font-bold text-primary mb-2">王晓华</h3>
+                        <p class="text-secondary font-medium mb-3">UI/UX设计师</p>
+                        <p class="text-gray-600 mb-4">
+                            7年设计经验，擅长用户界面设计和用户体验优化，注重细节和交互设计。
+                        </p>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fab fa-dribbble"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 成员4 -->
+                <div class="team-card fade-in" data-category="ai">
+                    <div class="overflow-hidden">
+                        <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/969719219494060079~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555121&x-signature=AmObsYwjc1e0272hwq5pTzqSkjc%3D" alt="陈静 - AI研究员" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="p-6 bg-white">
+                        <h3 class="text-xl font-bold text-primary mb-2">陈静</h3>
+                        <p class="text-secondary font-medium mb-3">AI研究员</p>
+                        <p class="text-gray-600 mb-4">
+                            6年人工智能研究经验，专注于机器学习和深度学习算法研发，发表多篇学术论文。
+                        </p>
+                        <div class="flex space-x-3">
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 查看更多按钮 -->
+            <div class="text-center mt-12">
+                <button id="load-more-team" class="bg-primary hover:bg-primary-light text-white font-bold py-3 px-8 rounded-full transition duration-300 flex items-center justify-center mx-auto">
+                    <span>查看更多成员</span>
+                    <i class="fas fa-chevron-down ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目案例 -->
+    <section id="projects" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-primary mb-4">项目案例</h2>
+                <div class="w-24 h-1 bg-accent mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    我们成功完成了众多项目，涵盖电商、金融、医疗、教育等多个行业，为客户创造了实际价值
+                </p>
+            </div>
+            
+            <!-- 项目筛选 -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="project-filter-btn active bg-primary text-white py-2 px-6 rounded-full transition duration-300" data-filter="all">
+                    全部项目
+                </button>
+                <button class="project-filter-btn bg-gray-200 hover:bg-primary hover:text-white py-2 px-6 rounded-full transition duration-300" data-filter="web">
+                    Web应用
+                </button>
+                <button class="project-filter-btn bg-gray-200 hover:bg-primary hover:text-white py-2 px-6 rounded-full transition duration-300" data-filter="mobile">
+                    移动应用
+                </button>
+                <button class="project-filter-btn bg-gray-200 hover:bg-primary hover:text-white py-2 px-6 rounded-full transition duration-300" data-filter="ai">
+                    AI解决方案
+                </button>
+                <button class="project-filter-btn bg-gray-200 hover:bg-primary hover:text-white py-2 px-6 rounded-full transition duration-300" data-filter="cloud">
+                    云服务
+                </button>
+            </div>
+            
+            <!-- 项目卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 项目1 -->
+                <div class="project-card bg-white rounded-lg shadow-lg overflow-hidden fade-in" data-category="web">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/labis/image/06aa0565b3d0abe71b48581c70e00b57~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555120&x-signature=Dvc6EiD2VykO0K%2BgcLZMFKvtlr8%3D" alt="智能项目管理系统" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Web应用</span>
+                            <span class="text-gray-500 text-sm">2023年</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary mb-2">智能项目管理系统</h3>
+                        <p class="text-gray-600 mb-4">
+                            为大型企业打造的项目管理平台，支持任务分配、进度跟踪、资源管理等功能，提升团队协作效率。
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">React</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Node.js</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">MongoDB</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Docker</span>
+                        </div>
+                        <button class="view-project-btn text-secondary hover:text-accent font-medium flex items-center">
+                            查看详情 <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 项目2 -->
+                <div class="project-card bg-white rounded-lg shadow-lg overflow-hidden fade-in" data-category="mobile">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/labis/image/b135d0a9c43ee9c9a43df3cc2cce5bdd~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555120&x-signature=F8Aimv%2BCdTpfmhpv54%2BQX4e8YbQ%3D" alt="移动支付解决方案" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">移动应用</span>
+                            <span class="text-gray-500 text-sm">2022年</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary mb-2">移动支付解决方案</h3>
+                        <p class="text-gray-600 mb-4">
+                            为金融机构开发的移动支付应用，支持多种支付方式，具备高度安全性和用户友好的界面。
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Flutter</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Kotlin</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Java</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Spring Boot</span>
+                        </div>
+                        <button class="view-project-btn text-secondary hover:text-accent font-medium flex items-center">
+                            查看详情 <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 项目3 -->
+                <div class="project-card bg-white rounded-lg shadow-lg overflow-hidden fade-in" data-category="ai">
+                    <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/969719219494060079~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555121&x-signature=AmObsYwjc1e0272hwq5pTzqSkjc%3D" alt="智能客服系统" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded">AI解决方案</span>
+                            <span class="text-gray-500 text-sm">2023年</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-primary mb-2">智能客服系统</h3>
+                        <p class="text-gray-600 mb-4">
+                            基于自然语言处理的智能客服系统，能够自动回答用户问题，提升客户服务效率，降低人力成本。
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Python</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">TensorFlow</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">Django</span>
+                            <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">AWS</span>
+                        </div>
+                        <button class="view-project-btn text-secondary hover:text-accent font-medium flex items-center">
+                            查看详情 <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 查看更多按钮 -->
+            <div class="text-center mt-12">
+                <button id="load-more-projects" class="bg-primary hover:bg-primary-light text-white font-bold py-3 px-8 rounded-full transition duration-300 flex items-center justify-center mx-auto">
+                    <span>查看更多项目</span>
+                    <i class="fas fa-chevron-down ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 专业技能 -->
+    <section id="skills" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-primary mb-4">专业技能</h2>
+                <div class="w-24 h-1 bg-accent mx-auto mb-6"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    我们的团队拥有广泛的技术栈和专业知识，能够为客户提供全方位的IT解决方案
+                </p>
+            </div>
+            
+            <!-- 技能雷达图 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold text-primary mb-6">团队技能分布</h3>
+                    <p class="text-gray-700 mb-8">
+                        我们的团队在多个技术领域拥有深厚的专业知识和丰富的实践经验，能够满足不同项目的需求。
+                    </p>
+                    <div class="radar-chart-container">
+                        <canvas id="skillsRadarChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold text-primary mb-6">核心技术能力</h3>
+                    
+                    <!-- 技术能力列表 -->
+                    <div class="space-y-6">
+                        <!-- 前端开发 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <div class="flex items-center">
+                                    <i class="fab fa-react text-2xl text-blue-500 mr-3"></i>
+                                    <span class="font-bold">前端开发</span>
+                                </div>
+                                <span>90%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-500 h-2.5 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 后端开发 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <div class="flex items-center">
+                                    <i class="fab fa-java text-2xl text-red-500 mr-3"></i>
+                                    <span class="font-bold">后端开发</span>
+                                </div>
+                                <span>85%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-red-500 h-2.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 移动开发 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <div class="flex items-center">
+                                    <i class="fab fa-android text-2xl text-green-500 mr-3"></i>
+                                    <span class="font-bold">移动开发</span>
+                                </div>
+                                <span>80%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-green-500 h-2.5 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 人工智能 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <div class="flex items-center">
+                                    <i class="fas fa-brain text-2xl text-purple-500 mr-3"></i>
+                                    <span class="font-bold">人工智能</span>
+                                </div>
+                                <span>75%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-purple-500 h-2.5 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 云计算 -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <div class="flex items-center">
+                                    <i class="fas fa-cloud text-2xl text-gray-500 mr-3"></i>
+                                    <span class="font-bold">云计算</span>
+                                </div>
+                                <span>88%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-gray-500 h-2.5 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 技术栈图谱 -->
+            <div class="fade-in">
+                <h3 class="text-2xl font-bold text-primary mb-6 text-center">技术栈图谱</h3>
+                <p class="text-gray-700 mb-8 text-center max-w-3xl mx-auto">
+                    我们使用的技术栈涵盖了前端、后端、移动开发、人工智能等多个领域，能够为客户提供全方位的技术支持。
+                </p>
+                
+                <div class="relative">
+                    <img src="https://p9-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/af45d64ae4184e96a2e0412378cc4a37~tplv-a9rns2rl98-image.image?rcl=20251101211828003180543750AEF6375F&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1764595149&x-signature=kIlIU6yPe4rlSzazymeGP82EvHc%3D" alt="技术栈图谱" class="w-full max-w-3xl mx-auto rounded-lg shadow-lg">
+                    
+                    <!-- 交互式技术栈图谱将在这里渲染 -->
+                    <div id="tech-stack-canvas-container" class="w-full max-w-3xl mx-auto mt-12 rounded-lg shadow-lg overflow-hidden border border-gray-200">
+                        <canvas id="tech-stack-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="py-20 bg-primary text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">联系我们</h2>
+                <div class="w-24 h-1 bg-accent mx-auto mb-6"></div>
+                <p class="text-gray-300 max-w-2xl mx-auto">
+                    如果您有任何问题或项目需求，请随时联系我们，我们将竭诚为您服务
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- 联系表单 -->
+                <div class="bg-white rounded-lg shadow-xl p-8 text-gray-800 fade-in">
+                    <h3 class="text-2xl font-bold text-primary mb-6">发送消息</h3>
+                    
+                    <form id="contact-form">
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 font-medium mb-2">姓名</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="请输入您的姓名" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 font-medium mb-2">邮箱</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="请输入您的邮箱" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="subject" class="block text-gray-700 font-medium mb-2">主题</label>
+                            <input type="text" id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="请输入消息主题" required>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 font-medium mb-2">消息</label>
+                            <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" placeholder="请输入您的消息内容" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="bg-primary hover:bg-primary-light text-white font-bold py-3 px-8 rounded-lg transition duration-300 w-full flex items-center justify-center">
+                            <span>发送消息</span>
+                            <i class="fas fa-paper-plane ml-2"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- 联系信息 -->
+                <div class="fade-in">
+                    <h3 class="text-2xl font-bold mb-6">联系方式</h3>
+                    
+                    <div class="space-y-8">
+                        <!-- 地址 -->
+                        <div class="flex items-start">
+                            <div class="bg-accent rounded-full p-3 mr-4">
+                                <i class="fas fa-map-marker-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">地址</h4>
+                                <p class="text-gray-300">北京市海淀区中关村科技园区8号楼15层</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 电话 -->
+                        <div class="flex items-start">
+                            <div class="bg-accent rounded-full p-3 mr-4">
+                                <i class="fas fa-phone-alt text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">电话</h4>
+                                <p class="text-gray-300">+86 10 8888 8888</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 邮箱 -->
+                        <div class="flex items-start">
+                            <div class="bg-accent rounded-full p-3 mr-4">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">邮箱</h4>
+                                <p class="text-gray-300">contact@techpro.com</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 社交媒体 -->
+                        <div>
+                            <h4 class="text-xl font-bold mb-4">关注我们</h4>
+                            <div class="flex space-x-4">
+                                <a href="#" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition duration-300">
+                                    <i class="fab fa-linkedin text-white"></i>
+                                </a>
+                                <a href="#" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition duration-300">
+                                    <i class="fab fa-github text-white"></i>
+                                </a>
+                                <a href="#" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition duration-300">
+                                    <i class="fab fa-twitter text-white"></i>
+                                </a>
+                                <a href="#" class="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition duration-300">
+                                    <i class="fab fa-facebook text-white"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 公司信息 -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-6">
+                        <i class="fas fa-code-branch text-accent text-2xl"></i>
+                        <span class="text-xl font-bold">TechPro</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        专业的IT团队，致力于为客户提供高质量的技术解决方案和服务。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition duration-300">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 快速链接 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">快速链接</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-400 hover:text-accent transition duration-300">首页</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-accent transition duration-300">关于我们</a></li>
+                        <li><a href="#team" class="text-gray-400 hover:text-accent transition duration-300">团队成员</a></li>
+                        <li><a href="#projects" class="text-gray-400 hover:text-accent transition duration-300">项目案例</a></li>
+                        <li><a href="#skills" class="text-gray-400 hover:text-accent transition duration-300">专业技能</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-accent transition duration-300">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <!-- 服务 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">我们的服务</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300">Web开发</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300">移动应用开发</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300">人工智能解决方案</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300">云计算服务</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300">UI/UX设计</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-accent transition duration-300">技术咨询</a></li>
+                    </ul>
+                </div>
+                
+                <!-- 订阅 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">订阅我们</h4>
+                    <p class="text-gray-400 mb-4">
+                        订阅我们的通讯，获取最新的技术资讯和行业动态。
+                    </p>
+                    <form id="subscribe-form" class="flex">
+                        <input type="email" placeholder="您的邮箱地址" class="px-4 py-2 w-full rounded-l-lg focus:outline-none text-gray-800">
+                        <button type="submit" class="bg-accent hover:bg-opacity-90 px-4 py-2 rounded-r-lg transition duration-300">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2023 TechPro. 保留所有权利。</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-accent transition duration-300">隐私政策</a>
+                    <a href="#" class="text-gray-400 hover:text-accent transition duration-300">服务条款</a>
+                    <a href="#" class="text-gray-400 hover:text-accent transition duration-300">网站地图</a>
+                </div>
+            </div>
+        </div>
     </footer>
 
+    <!-- 项目详情模态框 -->
+    <div id="project-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="modal-title" class="text-2xl font-bold text-primary"></h3>
+                    <button id="close-modal" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div id="modal-content">
+                    <!-- 内容将通过JavaScript动态填充 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 bg-accent hover:bg-opacity-90 text-white rounded-full p-3 shadow-lg transition duration-300 opacity-0 invisible">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
-        // 滚动显示动画
+        // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('.section');
+            // 移动端菜单
+            const menuToggle = document.getElementById('menu-toggle');
+            const closeMenu = document.getElementById('close-menu');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a');
             
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.add('open');
+            });
             
-            const observer = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // 只触发一次
+            closeMenu.addEventListener('click', function() {
+                mobileMenu.classList.remove('open');
+            });
+            
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('open');
+                });
+            });
+            
+            // 滚动动画
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const fadeInOnScroll = () => {
+                fadeElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.classList.add('visible');
                     }
                 });
-            }, observerOptions);
+            };
             
-            sections.forEach(section => {
-                observer.observe(section);
+            window.addEventListener('scroll', fadeInOnScroll);
+            fadeInOnScroll(); // 初始检查
+            
+            // 数字计数动画
+            const countElements = document.querySelectorAll('.count-animation');
+            
+            const animateCount = (element) => {
+                const target = parseInt(element.getAttribute('data-target'));
+                const duration = 2000; // 动画持续时间（毫秒）
+                const step = target / (duration / 16); // 每16ms更新一次
+                let current = 0;
+                
+                const updateCount = () => {
+                    current += step;
+                    if (current < target) {
+                        element.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        element.textContent = target;
+                    }
+                };
+                
+                updateCount();
+            };
+            
+            // 使用Intersection Observer检测元素是否可见
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCount(entry.target);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            countElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // 团队成员筛选
+            const teamFilterBtns = document.querySelectorAll('.team-filter-btn');
+            const teamCards = document.querySelectorAll('.team-card');
+            
+            teamFilterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    teamFilterBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('bg-gray-200');
+                    });
+                    
+                    // 添加当前按钮的active类
+                    this.classList.add('active', 'bg-primary', 'text-white');
+                    this.classList.remove('bg-gray-200');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // 筛选团队成员卡片
+                    teamCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // 项目筛选
+            const projectFilterBtns = document.querySelectorAll('.project-filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            projectFilterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    projectFilterBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-primary', 'text-white');
+                        b.classList.add('bg-gray-200');
+                    });
+                    
+                    // 添加当前按钮的active类
+                    this.classList.add('active', 'bg-primary', 'text-white');
+                    this.classList.remove('bg-gray-200');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // 筛选项目卡片
+                    projectCards.forEach(card => {
+                        if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // 项目详情模态框
+            const projectModal = document.getElementById('project-modal');
+            const closeModal = document.getElementById('close-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalContent = document.getElementById('modal-content');
+            const viewProjectBtns = document.querySelectorAll('.view-project-btn');
+            
+            // 项目详情数据
+            const projectDetails = {
+                '智能项目管理系统': {
+                    title: '智能项目管理系统',
+                    category: 'Web应用',
+                    year: '2023年',
+                    image: 'https://p11-doubao-search-sign.byteimg.com/labis/image/06aa0565b3d0abe71b48581c70e00b57~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555120&x-signature=Dvc6EiD2VykO0K%2BgcLZMFKvtlr8%3D',
+                    description: '为大型企业打造的项目管理平台，支持任务分配、进度跟踪、资源管理等功能，提升团队协作效率。该系统采用现代化的UI设计和高效的后端架构，能够满足企业对项目管理的各种需求。',
+                    features: [
+                        '任务管理：创建、分配、跟踪任务进度',
+                        '资源管理：合理分配和管理项目资源',
+                        '进度跟踪：实时监控项目进度和里程碑',
+                        '团队协作：支持团队成员之间的沟通和协作',
+                        '数据分析：提供项目数据统计和分析功能'
+                    ],
+                    technologies: ['React', 'Node.js', 'MongoDB', 'Docker', 'Kubernetes'],
+                    client: '某大型互联网企业',
+                    result: '项目按时交付，客户满意度达到95%，系统上线后团队协作效率提升了30%。'
+                },
+                '移动支付解决方案': {
+                    title: '移动支付解决方案',
+                    category: '移动应用',
+                    year: '2022年',
+                    image: 'https://p11-doubao-search-sign.byteimg.com/labis/image/b135d0a9c43ee9c9a43df3cc2cce5bdd~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555120&x-signature=F8Aimv%2BCdTpfmhpv54%2BQX4e8YbQ%3D',
+                    description: '为金融机构开发的移动支付应用，支持多种支付方式，具备高度安全性和用户友好的界面。该应用采用了先进的加密技术和安全认证机制，确保用户资金安全。',
+                    features: [
+                        '多种支付方式：支持银行卡、二维码、NFC等多种支付方式',
+                        '安全认证：采用生物识别和多重身份验证',
+                        '交易记录：详细记录用户交易历史和账单',
+                        '财务管理：提供预算管理和消费分析功能',
+                        '积分奖励：支持积分积累和兑换功能'
+                    ],
+                    technologies: ['Flutter', 'Kotlin', 'Java', 'Spring Boot', 'MySQL', 'Redis'],
+                    client: '某大型银行',
+                    result: '应用上线后用户增长率达到200%，交易成功率超过99.9%，用户满意度达到92%。'
+                },
+                '智能客服系统': {
+                    title: '智能客服系统',
+                    category: 'AI解决方案',
+                    year: '2023年',
+                    image: 'https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/969719219494060079~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777555121&x-signature=AmObsYwjc1e0272hwq5pTzqSkjc%3D',
+                    description: '基于自然语言处理的智能客服系统，能够自动回答用户问题，提升客户服务效率，降低人力成本。该系统采用了先进的机器学习算法和深度学习模型，能够理解用户意图并提供准确的回答。',
+                    features: [
+                        '智能问答：自动回答用户常见问题',
+                        '意图识别：准确识别用户意图和需求',
+                        '多轮对话：支持复杂的多轮对话场景',
+                        '知识库：自动学习和更新知识库内容',
+                        '数据分析：分析用户问题和反馈，提供改进建议'
+                    ],
+                    technologies: ['Python', 'TensorFlow', 'Django', 'AWS', 'Elasticsearch'],
+                    client: '某电商平台',
+                    result: '系统上线后，客服响应时间减少了70%，人工客服工作量减少了50%，用户满意度提升了25%。'
+                }
+            };
+            
+            // 打开模态框
+            viewProjectBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const projectCard = this.closest('.project-card');
+                    const projectTitle = projectCard.querySelector('h3').textContent;
+                    const project = projectDetails[projectTitle];
+                    
+                    if (project) {
+                        modalTitle.textContent = project.title;
+                        
+                        // 构建模态框内容
+                        let content = `
+                            <div class="mb-6">
+                                <img src="${project.image}" alt="${project.title}" class="w-full h-64 object-cover rounded-lg">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-bold text-primary mb-2">项目类别</h4>
+                                    <p>${project.category}</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-bold text-primary mb-2">完成年份</h4>
+                                    <p>${project.year}</p>
+                                </div>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <h4 class="font-bold text-primary mb-2">客户</h4>
+                                    <p>${project.client}</p>
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <h4 class="font-bold text-primary mb-2">项目描述</h4>
+                                <p class="text-gray-700">${project.description}</p>
+                            </div>
+                            <div class="mb-6">
+                                <h4 class="font-bold text-primary mb-2">主要功能</h4>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                    ${project.features.map(feature => `<li>${feature}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div class="mb-6">
+                                <h4 class="font-bold text-primary mb-2">技术栈</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    ${project.technologies.map(tech => `<span class="bg-gray-100 text-gray-800 text-sm px-3 py-1 rounded">${tech}</span>`).join('')}
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-primary mb-2">项目成果</h4>
+                                <p class="text-gray-700">${project.result}</p>
+                            </div>
+                        `;
+                        
+                        modalContent.innerHTML = content;
+                        projectModal.classList.remove('hidden');
+                        document.body.style.overflow = 'hidden'; // 防止背景滚动
+                    }
+                });
+            });
+            
+            // 关闭模态框
+            closeModal.addEventListener('click', function() {
+                projectModal.classList.add('hidden');
+                document.body.style.overflow = ''; // 恢复背景滚动
+            });
+            
+            // 点击模态框外部关闭
+            projectModal.addEventListener('click', function(e) {
+                if (e.target === projectModal) {
+                    projectModal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // 返回顶部按钮
+            const backToTopBtn = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.remove('opacity-0', 'invisible');
+                    backToTopBtn.classList.add('opacity-100', 'visible');
+                } else {
+                    backToTopBtn.classList.remove('opacity-100', 'visible');
+                    backToTopBtn.classList.add('opacity-0', 'invisible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 联系表单提交
+            const contactForm = document.getElementById('contact-form');
+            
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 获取表单数据
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const subject = document.getElementById('subject').value;
+                const message = document.getElementById('message').value;
+                
+                // 模拟表单提交
+                alert(`感谢您的留言，${name}！我们会尽快回复您。`);
+                contactForm.reset();
+            });
+            
+            // 订阅表单提交
+            const subscribeForm = document.getElementById('subscribe-form');
+            
+            subscribeForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 获取表单数据
+                const email = this.querySelector('input[type="email"]').value;
+                
+                // 模拟表单提交
+                alert(`感谢您的订阅，我们会定期发送最新资讯到 ${email}！`);
+                subscribeForm.reset();
+            });
+            
+            // 技能雷达图
+            const skillsRadarChart = document.getElementById('skillsRadarChart');
+            
+            new Chart(skillsRadarChart, {
+                type: 'radar',
+                data: {
+                    labels: ['前端开发', '后端开发', '移动开发', '人工智能', '云计算', '数据库', '网络安全', '项目管理'],
+                    datasets: [{
+                        label: '团队技能',
+                        data: [90, 85, 80, 75, 88, 90, 80, 92],
+                        backgroundColor: 'rgba(87, 108, 188, 0.2)',
+                        borderColor: 'rgba(87, 108, 188, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(87, 108, 188, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(87, 108, 188, 1)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // 3D技术栈图谱
+            const techStackCanvas = document.getElementById('tech-stack-canvas');
+            const renderer = new THREE.WebGLRenderer({
+                canvas: techStackCanvas,
+                alpha: true,
+                antialias: true
+            });
+            
+            // 设置渲染器大小
+            function resizeRenderer() {
+                const container = techStackCanvas.parentElement;
+                const width = container.clientWidth;
+                const height = 400;
+                
+                techStackCanvas.width = width;
+                techStackCanvas.height = height;
+                
+                renderer.setSize(width, height);
+                
+                if (camera) {
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                }
+            }
+            
+            window.addEventListener('resize', resizeRenderer);
+            resizeRenderer();
+            
+            // 创建场景
+            const scene = new THREE.Scene();
+            
+            // 创建相机
+            const camera = new THREE.PerspectiveCamera(75, techStackCanvas.width / techStackCanvas.height, 0.1, 1000);
+            camera.position.z = 5;
+            
+            // 添加光源
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            // 技术节点数据
+            const techNodes = [
+                { name: 'JavaScript', group: 'frontend', position: { x: -1.5, y: 1.5, z: 0 }, size: 0.4 },
+                { name: 'React', group: 'frontend', position: { x: -0.5, y: 1.8, z: 0 }, size: 0.35 },
+                { name: 'Vue', group: 'frontend', position: { x: -2.5, y: 1.8, z: 0 }, size: 0.35 },
+                { name: 'TypeScript', group: 'frontend', position: { x: -1.5, y: 0.5, z: 0 }, size: 0.3 },
+                { name: 'Java', group: 'backend', position: { x: 1.5, y: 1.5, z: 0 }, size: 0.4 },
+                { name: 'Spring Boot', group: 'backend', position: { x: 0.5, y: 1.8, z: 0 }, size: 0.35 },
+                { name: 'Python', group: 'backend', position: { x: 2.5, y: 1.8, z: 0 }, size: 0.35 },
+                { name: 'Node.js', group: 'backend', position: { x: 1.5, y: 0.5, z: 0 }, size: 0.3 },
+                { name: 'MySQL', group: 'database', position: { x: 1.5, y: -0.5, z: 0 }, size: 0.35 },
+                { name: 'MongoDB', group: 'database', position: { x: 2.5, y: -0.5, z: 0 }, size: 0.3 },
+                { name: 'PostgreSQL', group: 'database', position: { x: 0.5, y: -0.5, z: 0 }, size: 0.3 },
+                { name: 'AWS', group: 'cloud', position: { x: -1.5, y: -1.5, z: 0 }, size: 0.35 },
+                { name: 'Docker', group: 'cloud', position: { x: -0.5, y: -1.5, z: 0 }, size: 0.3 },
+                { name: 'Kubernetes', group: 'cloud', position: { x: -2.5, y: -1.5, z: 0 }, size: 0.3 },
+                { name: 'TensorFlow', group: 'ai', position: { x: 0, y: -1.5, z: 0 }, size: 0.35 },
+                { name: 'PyTorch', group: 'ai', position: { x: 1, y: -1.5, z: 0 }, size: 0.3 },
+                { name: 'Flutter', group: 'mobile', position: { x: -1, y: -0.5, z: 0 }, size: 0.35 },
+                { name: 'React Native', group: 'mobile', position: { x: -2, y: -0.5, z: 0 }, size: 0.3 }
+            ];
+            
+            // 技术连接数据
+            const techConnections = [
+                // 前端连接
+                { from: 'JavaScript', to: 'React' },
+                { from: 'JavaScript', to: 'Vue' },
+                { from: 'JavaScript', to: 'TypeScript' },
+                { from: 'TypeScript', to: 'React' },
+                { from: 'TypeScript', to: 'Vue' },
+                
+                // 后端连接
+                { from: 'Java', to: 'Spring Boot' },
+                { from: 'Python', to: 'Node.js' },
+                
+                // 数据库连接
+                { from: 'Java', to: 'MySQL' },
+                { from: 'Java', to: 'PostgreSQL' },
+                { from: 'Python', to: 'MongoDB' },
+                { from: 'Node.js', to: 'MongoDB' },
+                
+                // 云服务连接
+                { from: 'Java', to: 'AWS' },
+                { from: 'Python', to: 'AWS' },
+                { from: 'AWS', to: 'Docker' },
+                { from: 'Docker', to: 'Kubernetes' },
+                
+                // AI连接
+                { from: 'Python', to: 'TensorFlow' },
+                { from: 'Python', to: 'PyTorch' },
+                
+                // 移动开发连接
+                { from: 'JavaScript', to: 'React Native' },
+                { from: 'TypeScript', to: 'Flutter' }
+            ];
+            
+            // 创建技术节点
+            const nodeMeshes = {};
+            const nodeColors = {
+                frontend: 0x576CBC,
+                backend: 0xA5D7E8,
+                database: 0xFF9F45,
+                cloud: 0x19376D,
+                ai: 0x9B59B6,
+                mobile: 0x2ECC71
+            };
+            
+            techNodes.forEach(node => {
+                const geometry = new THREE.SphereGeometry(node.size, 32, 32);
+                const material = new THREE.MeshPhongMaterial({
+                    color: nodeColors[node.group],
+                    transparent: true,
+                    opacity: 0.8,
+                    shininess: 100
+                });
+                
+                const mesh = new THREE.Mesh(geometry, material);
+                mesh.position.set(node.position.x, node.position.y, node.position.z);
+                
+                scene.add(mesh);
+                nodeMeshes[node.name] = mesh;
+            });
+            
+            // 创建技术连接
+            const connectionLines = [];
+            
+            techConnections.forEach(connection => {
+                const fromNode = techNodes.find(node => node.name === connection.from);
+                const toNode = techNodes.find(node => node.name === connection.to);
+                
+                if (fromNode && toNode) {
+                    const geometry = new THREE.BufferGeometry();
+                    const material = new THREE.LineBasicMaterial({
+                        color: 0xA5D7E8,
+                        transparent: true,
+                        opacity: 0.6
+                    });
+                    
+                    const points = [];
+                    points.push(new THREE.Vector3(fromNode.position.x, fromNode.position.y, fromNode.position.z));
+                    points.push(new THREE.Vector3(toNode.position.x, toNode.position.y, toNode.position.z));
+                    
+                    geometry.setFromPoints(points);
+                    const line = new THREE.Line(geometry, material);
+                    
+                    scene.add(line);
+                    connectionLines.push(line);
+                }
+            });
+            
+            // 动画循环
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // 旋转场景
+                scene.rotation.y += 0.005;
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // 加载更多团队成员按钮
+            const loadMoreTeamBtn = document.getElementById('load-more-team');
+            
+            loadMoreTeamBtn.addEventListener('click', function() {
+                // 模拟加载更多团队成员
+                alert('更多团队成员正在加载中...');
+            });
+            
+            // 加载更多项目按钮
+            const loadMoreProjectsBtn = document.getElementById('load-more-projects');
+            
+            loadMoreProjectsBtn.addEventListener('click', function() {
+                // 模拟加载更多项目
+                alert('更多项目案例正在加载中...');
             });
         });
     </script>
